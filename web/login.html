@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Price Auto Sales</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">       
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <style>
+            /* Estilos generales */
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            /* Barra superior */
+            .top-bar {
+                background: #003366;
+                color: white;
+                padding: 10px 0;
+                font-size: 14px;
+            }
+
+            .top-bar a {
+                color: #FFD700;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            /* Header principal */
+            .header-main {
+                background: white;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                padding: 15px 0;
+            }
+
+            /* Logo */
+            .navbar-brand img {
+                height: 50px;
+            }
+
+            /* Estilos del menú */
+            .navbar-nav .nav-link {
+                color: #003366;
+                font-weight: 600;
+                padding: 10px 15px;
+                transition: all 0.3s ease-in-out;
+            }
+
+            .navbar-nav .nav-link:hover {
+                color: #FFD700;
+                transform: scale(1.1);
+            }
+
+            .navbar-nav .nav-item.active .nav-link {
+                color: #FFD700;
+            }
+
+            /* Botón de menú en móviles */
+            .menu-mobile-button {
+                background: none;
+                border: none;
+                font-size: 24px;
+                color: #003366;
+            }
+
+            /* Contacto en la parte superior */
+            .header-contacts {
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .header-contacts a {
+                color: #003366;
+                text-decoration: none;
+            }
+
+            .header-contacts a:hover {
+                color: #FFD700;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Barra superior -->
+        <div class="top-bar d-none d-xl-block">
+            <div class="container d-flex justify-content-between">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="mailto:contact@priceautoscr.com">contact@priceautoscr.com</a></li>
+                    <li class="list-inline-item">Lun - Vie: 7:30am - 5:00pm</li>
+                    <li class="list-inline-item">Ok 34, Provincia De Puntarenas, Costa Rica</li>
+                </ul>
+                <a class="btn btn-warning btn-sm" href="/contact">📅 Book A Virtual Tour</a>
+            </div>
+        </div>
+
+        <!-- Menú principal -->
+        <div class="header-main">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-auto">
+                        <a class="navbar-brand" href="/">
+                            <img src="https://www.priceautoscr.com/PriceAuto/assets/media/general/logo.png" alt="Price Auto Sales">
+                        </a>
+                    </div>
+                    <div class="col-lg-auto col">
+                        <div class="header-contacts d-none d-md-block">
+                            <span>📞 Call Us Today: <a href="tel:+50627794545">+506 2779 4545</a></span>
+                        </div>
+                    </div>
+                    <div class="col-lg d-none d-lg-block">
+                        <nav class="navbar navbar-expand-md justify-content-end">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/inventory">Inventory</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Services</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/contact">Schedule Appointment</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="/dealers">Locations</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido de prueba -->
+        <div class="d-flex justify-content-center align-items-center vh-80">
+            <div class="card" style="width: 18rem;">                    
+                <div class="card-body">
+                    <form action="loginServlet">
+                        <div class="mb-3">
+                            <label for="txtEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="txtEmail">                            
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtPwd" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="txtPwd">
+                        </div>                      
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
