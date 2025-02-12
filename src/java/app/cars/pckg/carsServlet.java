@@ -4,10 +4,15 @@
  */
 package app.cars.pckg;
 
+import app.helper.pckg.databaseHelper;
 import app.model.pckg.Car;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,32 +32,29 @@ public class carsServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
 
             ArrayList<Car> cars = new ArrayList<>();
-                        
-            Car car1 = new Car("Toyota",
-                                "Corolla",
-                                2024,   
-                                "Black",
-                                "1400 CC Turbo",
-                                "Gasoline",
-                                23000);
-            
-            Car car2 = new Car("Toyota",
-                                "Rav4",
-                                2023,   
-                                "Grey",
-                                "2300 CC",
-                                "Diesel",
-                                12987);
-            
-            cars.add(car1);
-            cars.add(car2);
-                                    
+            databaseHelper database = new databaseHelper();
+            ResultSet resultset = database.getCars();
+
+            while (resultset.next()) {
+                Car car = new Car(resultset.getString("brand"),
+                        resultset.getString("model"),
+                        resultset.getInt("man_year"),
+                        resultset.getString("color"),
+                        resultset.getString("cc_engine"),
+                        resultset.getString("fuelType"),
+                        resultset.getInt("mileage"),
+                        resultset.getString("photo"));
+
+                cars.add(car);
+            }
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -61,24 +63,27 @@ public class carsServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body class='bg-light'>");
 
-            out.println("<div class='container mt-4'>");
-            out.println("<h1 class='text-center mb-4'>Lista de Vehículos</h1>");
-            out.println("<div class='row'>"); 
+            out.println("<div class='text-center'>");
+            out.println("   <div class='container mt-5'>");
+            out.println("       <h1 class='text-center mb-4'>Lista de Vehículos</h1>");
+            out.println("           <div class='row justify-content-center'>");
 
             for (Car car : cars) {
                 out.println("<div class='col-md-4 mb-3'>"); 
-                out.println("<div class='card shadow-sm'>");
-                out.println("<div class='card-body'>");
-                out.println("<h5 class='card-title'>" + car.Brand + "</h5>");
-                out.println("<p class='card-text'>" + car.Model + "</p>");
-                out.println("<p class='card-text'>" + car.Engine + "</p>");
-                out.println("<a href='#' class='btn btn-primary'>Ver detalles</a>");
-                out.println("</div>");
-                out.println("</div>");
+                out.println("  <div class='card shadow-sm' style='width:18rem;height:25rem'>");
+                out.println("         <img src='" + car.Photo + "' />");
+                out.println("       <div class='card-body'>");                
+                out.println("           <h5 class='card-title'>" + car.Brand + "</h5>");
+                out.println("           <p class='card-text'>" + car.Model + "</p>");
+                out.println("           <p class='card-text'>" + car.Engine + "</p>");
+                out.println("           <a href='#' class='btn btn-primary'>Ver detalles</a>");
+                out.println("       </div>");
+                out.println("   </div>");
                 out.println("</div>");
             }
-
-            out.println("</div>");
+            
+            out.println("           </div>");
+            out.println("   </div>");
             out.println("</div>");
 
             out.println("<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'></script>");
@@ -99,7 +104,11 @@ public class carsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(carsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -113,7 +122,11 @@ public class carsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(carsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

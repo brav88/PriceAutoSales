@@ -16,6 +16,7 @@ public class Car {
     public String Engine= "";
     public String FuelType= "";
     public int Mileage = 0;
+    public String Photo= "";
     
     public Car(String _Brand,
                String _Model,
@@ -23,7 +24,8 @@ public class Car {
                String _Color,
                String _Engine,
                String _FuelType,
-               int _Mileage)
+               int _Mileage,
+               String _Photo)
     {
         this.Brand = _Brand;
         this.Model = _Model;
@@ -32,5 +34,6 @@ public class Car {
         this.Engine = _Engine;
         this.FuelType = _FuelType;
         this.Mileage = _Mileage;
+        this.Photo = _Photo;
     }
 }
