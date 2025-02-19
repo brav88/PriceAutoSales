@@ -1,3 +1,14 @@
+<%-- 
+    Document   : menu
+    Created on : 18 feb. 2025, 18:19:54
+    Author     : Samuel
+--%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="app.helper.pckg.databaseHelper"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="app.model.pckg.Car"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -9,6 +20,14 @@
         <link href="css/site.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>        
+        <%
+            String email = (String) session.getAttribute("email");
+
+            if (email == null) {
+                RequestDispatcher rd = request.getRequestDispatcher("errorHandler?message=You must log in first");
+                rd.forward(request, response);
+            }
+        %>        
         <div class="top-bar d-none d-xl-block">
             <div class="container d-flex justify-content-between">
                 <ul class="list-inline mb-0">
@@ -31,23 +50,23 @@
                     </div>
                     <div class="col-lg-auto col">
                         <div class="header-contacts d-none d-md-block">
-                            <span>📞 Call Us Today: <a href="tel:+50627794545">+506 2779 4545</a></span>
+                            <span>Welcome <%=email%></span>
                         </div>
                     </div>
                     <div class="col-lg d-none d-lg-block">
                         <nav class="navbar navbar-expand-md justify-content-end">
                             <ul class="navbar-nav">
-                                <li class="nav-item active"><a class="nav-link" href="login.html">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/">Inventory</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/">About</a></li>
+                                <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="carsServlet">See Cars List</a></li>
+                                <li class="nav-item"><a class="nav-link" href="createCar.jsp">Sell your car</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Services</a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="/contact">Schedule Appointment</a>
+                                        <a class="dropdown-item" href="/">Schedule Appointment</a>
                                     </div>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="/">Locations</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/">Contact</a></li>
+                                <li class="nav-item"><a class="nav-link" href="logout.jsp">Logout</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -56,22 +75,19 @@
         </div>
 
         <hr>
-        
+
         <!-- Contenido de prueba -->
         <div class="d-flex justify-content-center align-items-center">
             <div class="card" style="width: 18rem;">                    
                 <div class="card-body">
-                    <form action="loginServlet">
-                        <div class="mb-3">
-                            <label for="txtEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" name="txtEmail" value="brav88@hotmail.com">                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="txtPwd" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="txtPwd" value="Admin$1234">
-                        </div>                      
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
+                    <a href="createCar.jsp">Sell your car</a> 
+                </div>
+            </div>
+        </div>
+         <div class="d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 18rem;">                    
+                <div class="card-body">
+                    <a href="carsServlet">See Car List</a> 
                 </div>
             </div>
         </div>

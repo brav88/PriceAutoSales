@@ -18,7 +18,7 @@ INSERT INTO users VALUES (2, "Jason Taylor", "jtaylor@gmail.com", "Admin$1234", 
 SELECT * FROM users WHERE email = "brav88@hotmail.com" AND pwd = "Admin$1234" AND user_status = 1;
 
 CREATE TABLE cars (
-	id int not null,
+	id int not null AUTO_INCREMENT,
     brand varchar(50),
     model varchar(50),
     man_year int,
@@ -30,8 +30,10 @@ CREATE TABLE cars (
     PRIMARY KEY (id)
 );
 
-INSERT INTO cars VALUES(1, "Hyundai", "Tucson", 2022, "White", "1600 Turbo", "Gasoline", 80000, "Images/1.jpg");
-INSERT INTO cars VALUES(2, "Mitsubishi", "Montero", 2024, "Black", "2500", "Diesel", 32000, "Images/2.jpg");
+INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo) VALUES ("Hyundai", "Tucson", 2022, "White", "1600 Turbo", "Gasoline", 80000, "Images/1.jpg");
+
+INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo) 
+	VALUES("Mitsubishi", "Montero", 2024, "Black", "2500", "Diesel", 32000, "Images/2.jpg");
 
 SELECT * FROM cars;
 

@@ -4,6 +4,7 @@
  */
 package app.helper.pckg;
 
+import app.model.pckg.Car;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +42,7 @@ public class databaseHelper {
 
             while (resultset.next()) {
                 return true;
-            }            
+            }
         } catch (SQLException ex) {
             //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
         }
@@ -58,5 +59,30 @@ public class databaseHelper {
             //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
         }
         return null;
+    }
+
+    public boolean saveCar(Car car) throws SQLException {
+        try {
+            //otra forma
+            PreparedStatement predStatement = 
+            conn.prepareStatement("INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+            
+            predStatement.setString(1, car.Brand);
+            predStatement.setString(2, car.Model);
+            predStatement.setInt(3, car.Year);
+            predStatement.setString(4, car.Color);
+            predStatement.setString(5, car.Engine);
+            predStatement.setString(6, car.FuelType);
+            predStatement.setInt(7, car.Mileage);
+            predStatement.setString(8, "");
+            
+            predStatement.executeUpdate();    
+            
+            return true;
+            
+        } catch (SQLException ex) {
+            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
+            return false;
+        }        
     }
 }

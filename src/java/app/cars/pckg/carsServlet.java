@@ -55,33 +55,82 @@ public class carsServlet extends HttpServlet {
                 cars.add(car);
             }
 
+            database.close();
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Lista de Vehículos</title>");
             out.println("<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'>");
+            out.println("<link href='css/site.css' rel='stylesheet' type='text/css'/>");
             out.println("</head>");
+            
             out.println("<body class='bg-light'>");
+            out.println("<div class='top-bar d-none d-xl-block'>");
+            out.println("    <div class='container d-flex justify-content-between'>");
+            out.println("        <ul class='list-inline mb-0'>");
+            out.println("            <li class='list-inline-item'><a href='mailto:contact@priceautoscr.com'>contact@priceautoscr.com</a></li>");
+            out.println("            <li class='list-inline-item'>Lun - Vie: 7:30am - 5:00pm</li>");
+            out.println("            <li class='list-inline-item'>Ok 34, Provincia De Puntarenas, Costa Rica</li>");
+            out.println("        </ul>");
+            out.println("        <a class='btn btn-warning btn-sm' href='/contact'>📅 Book A Virtual Tour</a>");
+            out.println("    </div>");
+            out.println("</div>");
+
+            out.println("<!-- Menú principal -->");
+            out.println("<div class='header-main'>");
+            out.println("    <div class='container'>");
+            out.println("        <div class='row align-items-center'>");
+            out.println("            <div class='col-lg-2 col-auto'>");
+            out.println("                <a class='navbar-brand' href='/'>");
+            out.println("                    <img src='https://www.priceautoscr.com/PriceAuto/assets/media/general/logo.png' alt='Price Auto Sales'>");
+            out.println("                </a>");
+            out.println("            </div>");
+            out.println("            <div class='col-lg-auto col'>");
+            out.println("                <div class='header-contacts d-none d-md-block'>");
+            out.println("                    <span>📞 Call Us Today: <a href='tel:+50627794545'>+506 2779 4545</a></span>");
+            out.println("                </div>");
+            out.println("            </div>");
+            out.println("            <div class='col-lg d-none d-lg-block'>");
+            out.println("                <nav class='navbar navbar-expand-md justify-content-end'>");
+            out.println("                    <ul class='navbar-nav'>");
+            out.println("                        <li class='nav-item active'><a class='nav-link' href='menu.jsp'>Home</a></li>");
+            out.println("                        <li class='nav-item'><a class='nav-link' href='/inventory'>Inventory</a></li>");
+            out.println("                        <li class='nav-item'><a class='nav-link' href='/about'>About</a></li>");
+            out.println("                        <li class='nav-item dropdown'>");
+            out.println("                            <a class='nav-link dropdown-toggle' href='#' data-toggle='dropdown'>Services</a>");
+            out.println("                            <div class='dropdown-menu'>");
+            out.println("                                <a class='dropdown-item' href='/contact'>Schedule Appointment</a>");
+            out.println("                            </div>");
+            out.println("                        </li>");
+            out.println("                        <li class='nav-item'><a class='nav-link' href='/dealers'>Locations</a></li>");
+            out.println("                        <li class='nav-item'><a class='nav-link' href='/contact'>Contact</a></li>");
+            out.println("                    </ul>");
+            out.println("                </nav>");
+            out.println("            </div>");
+            out.println("        </div>");
+            out.println("    </div>");
+            out.println("</div>");
+
+            out.println("<hr>");
 
             out.println("<div class='text-center'>");
             out.println("   <div class='container mt-5'>");
-            out.println("       <h1 class='text-center mb-4'>Lista de Vehículos</h1>");
-            out.println("           <div class='row justify-content-center'>");
+            out.println("        <div class='row justify-content-center'>");
 
             for (Car car : cars) {
-                out.println("<div class='col-md-4 mb-3'>"); 
+                out.println("<div class='col-md-4 mb-3'>");
                 out.println("  <div class='card shadow-sm' style='width:18rem;height:25rem'>");
                 out.println("         <img src='" + car.Photo + "' />");
-                out.println("       <div class='card-body'>");                
-                out.println("           <h5 class='card-title'>" + car.Brand + "</h5>");
-                out.println("           <p class='card-text'>" + car.Model + "</p>");
-                out.println("           <p class='card-text'>" + car.Engine + "</p>");
+                out.println("       <div class='card-body'>");
+                out.println("           <h5 class='card-title'>" + car.Brand + " " + car.Model + "</h5>");
+                out.println("           <p class='card-text'>Engine: " + car.Engine + "</p>");
                 out.println("           <a href='#' class='btn btn-primary'>Ver detalles</a>");
                 out.println("       </div>");
                 out.println("   </div>");
                 out.println("</div>");
             }
-            
+
             out.println("           </div>");
             out.println("   </div>");
             out.println("</div>");

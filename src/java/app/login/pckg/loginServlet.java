@@ -6,8 +6,8 @@ package app.login.pckg;
 
 import app.helper.pckg.databaseHelper;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,13 +38,22 @@ public class loginServlet extends HttpServlet {
 
         String txtEmail = request.getParameter("txtEmail");
         String txtPwd = request.getParameter("txtPwd");
-
+        
+        HttpSession session = request.getSession(false);
+        
+        if (session != null) 
+        {
+            session.invalidate();
+        }        
+        
         databaseHelper database = new databaseHelper();
 
         if (database.validateLogin(txtEmail, txtPwd)) 
         {
             database.close();
-            RequestDispatcher rd = request.getRequestDispatcher("carsServlet");
+            session = request.getSession();
+            session.setAttribute("email",txtEmail);
+            RequestDispatcher rd = request.getRequestDispatcher("menu.jsp");
             rd.forward(request, response);
             return;
         }
@@ -98,5 +108,4 @@ public class loginServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
