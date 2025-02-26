@@ -36,7 +36,7 @@
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item"><a href="mailto:contact@priceautoscr.com">contact@priceautoscr.com</a></li>
                     <li class="list-inline-item">Lun - Vie: 7:30am - 5:00pm</li>
-                    <li class="list-inline-item">Ok 34, Provincia De Puntarenas, Costa Rica</li>
+                    <li class="list-inline-item">Ok 34, Provincia De Alajuela, Costa Rica</li>
                 </ul>
                 <a class="btn btn-warning btn-sm" href="/contact">📅 Book A Virtual Tour</a>
             </div>
