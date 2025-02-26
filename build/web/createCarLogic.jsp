@@ -16,23 +16,23 @@
     String txtEngine = request.getParameter("txtEngine");
     String selFuelType = request.getParameter("selFuelType");
     int txtMileage = Integer.parseInt(request.getParameter("txtMileage"));
+    int owner_id = (int) session.getAttribute("owner_id");
 
     databaseHelper database = new databaseHelper();
 
-    if (database.saveCar(new Car(selBrand,
+    if (database.saveCar(new Car(0,
+            selBrand,
             selModel,
             selYear,
             txtColor,
             txtEngine,
             selFuelType,
             txtMileage,
-            ""))) 
-    {
-            RequestDispatcher rd = request.getRequestDispatcher("carsServlet");
-            rd.forward(request, response);
-    }
-    else{
+            "Images/0.jpg"), owner_id)) {
+        RequestDispatcher rd = request.getRequestDispatcher("carsServlet");
+        rd.forward(request, response);
+    } else {
         RequestDispatcher rd = request.getRequestDispatcher("errorHandler?message=Cars was not saved due an unhandled error");
         rd.forward(request, response);
-    }       
+    }
 %>

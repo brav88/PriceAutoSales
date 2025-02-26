@@ -1,16 +1,14 @@
 <%-- 
-    Document   : menu
-    Created on : 18 feb. 2025, 18:19:54
+    Document   : carDetails
+    Created on : 25 feb. 2025, 19:33:41
     Author     : Samuel
 --%>
 
 <%@page import="java.sql.ResultSet"%>
 <%@page import="app.helper.pckg.databaseHelper"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="app.model.pckg.Car"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="es">
+<html>
     <head>
         <title>Price Auto Sales</title>
         <meta charset="UTF-8">
@@ -27,6 +25,11 @@
                 RequestDispatcher rd = request.getRequestDispatcher("errorHandler?message=You must log in first");
                 rd.forward(request, response);
             }
+
+            int car_id = Integer.parseInt(request.getParameter("id"));
+            databaseHelper database = new databaseHelper();
+            ResultSet rsCar = database.getCar(car_id);
+            rsCar.next();
         %>        
         <div class="top-bar d-none d-xl-block">
             <div class="container d-flex justify-content-between">
@@ -45,7 +48,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-auto">
                         <a class="navbar-brand" href="/">
-                            
+
                         </a>
                     </div>
                     <div class="col-lg-auto col">
@@ -56,9 +59,9 @@
                     <div class="col-lg d-none d-lg-block">
                         <nav class="navbar navbar-expand-md justify-content-end">
                             <ul class="navbar-nav">
-                                <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="carsServlet">See Cars List</a></li>
-                                <li class="nav-item"><a class="nav-link" href="createCar.jsp">Sell your car</a></li>
+                                <li class="nav-item active"><a class="nav-link" href="menu.jsp">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/">Inventory</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/">About</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Services</a>
                                     <div class="dropdown-menu">
@@ -76,20 +79,40 @@
 
         <hr>
 
-        <!-- Contenido de prueba -->
-        <div class="d-flex justify-content-center align-items-center">
-            <div class="card" style="width: 18rem;">                    
-                <div class="card-body">
-                    <a href="createCar.jsp">Sell your car</a> 
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-lg p-3 rounded">
+                        <div class="row g-0">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <img src="<%=rsCar.getString("photo")%>" class="img-fluid rounded" alt="Car Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h4 class="card-title text-primary fw-bold">
+                                        <i class="fas fa-car"></i> <%=rsCar.getString("brand")%> <%=rsCar.getString("model")%>
+                                    </h4>
+                                    <hr>
+                                    <p><i class="fas fa-cogs"></i> Engine: <strong><%=rsCar.getString("cc_engine")%></strong></p>
+                                    <p><i class="fas fa-tachometer-alt"></i> Mileage: <strong><%=rsCar.getString("mileage")%></strong></p>
+                                    <p><i class="fas fa-gas-pump"></i> Fuel Type: <strong><%=rsCar.getString("fuelType")%></strong></p>
+                                    <p><i class="fas fa-palette"></i> Color: <strong><%=rsCar.getString("color")%></strong></p>
+                                    <hr>
+                                    <h6 class="text-muted"><i class="fas fa-user"></i> Owner Information</h6>
+                                    <p><i class="fas fa-user"></i> Name: <strong><%=rsCar.getString("user_name")%></strong></p>
+                                    <p><i class="fas fa-envelope"></i> Email: <strong><%=rsCar.getString("email")%></strong></p>
+                                    <p><i class="fas fa-phone"></i> Phone: <strong><%=rsCar.getString("phone")%></strong></p>
+                                    <a href="carsServlet" class="btn btn-primary mt-2"><i class="fas fa-arrow-left"></i> Back</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-         <div class="d-flex justify-content-center align-items-center">
-            <div class="card" style="width: 18rem;">                    
-                <div class="card-body">
-                    <a href="carsServlet">See Car List</a> 
-                </div>
-            </div>
-        </div>
-    </body>
+
+        <!-- Agregar FontAwesome para los iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    </div>
+</body>
 </html>

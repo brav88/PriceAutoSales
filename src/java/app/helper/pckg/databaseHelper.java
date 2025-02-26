@@ -34,25 +34,10 @@ public class databaseHelper {
         }
     }
 
-    public boolean validateLogin(String email, String pwd) throws SQLException {
+    public ResultSet validateLogin(String email, String pwd) throws SQLException {
         try {
             Statement statement = conn.createStatement();
             String sql = "SELECT * FROM users WHERE email = '" + email + "' AND pwd = '" + pwd + "' AND user_status = 1;";
-            ResultSet resultset = statement.executeQuery(sql);
-
-            while (resultset.next()) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
-        }
-        return false;
-    }
-
-    public ResultSet getCars() throws SQLException {
-        try {
-            Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM cars;";
             ResultSet resultset = statement.executeQuery(sql);
             return resultset;
         } catch (SQLException ex) {
@@ -61,12 +46,23 @@ public class databaseHelper {
         return null;
     }
 
-    public boolean saveCar(Car car) throws SQLException {
+    public ResultSet getTable(String table) throws SQLException {
+        try {
+            Statement statement = conn.createStatement();
+            String sql = "SELECT * FROM " + table;            
+            return statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return null;
+    }
+
+    public boolean saveCar(Car car, int owner_id) throws SQLException {
         try {
             //otra forma
-            PreparedStatement predStatement = 
-            conn.prepareStatement("INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-            
+            PreparedStatement predStatement
+                    = conn.prepareStatement("INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+
             predStatement.setString(1, car.Brand);
             predStatement.setString(2, car.Model);
             predStatement.setInt(3, car.Year);
@@ -74,15 +70,30 @@ public class databaseHelper {
             predStatement.setString(5, car.Engine);
             predStatement.setString(6, car.FuelType);
             predStatement.setInt(7, car.Mileage);
-            predStatement.setString(8, "");
-            
-            predStatement.executeUpdate();    
-            
+            predStatement.setString(8, car.Photo);
+            predStatement.setInt(9, owner_id);
+
+            predStatement.executeUpdate();
+
             return true;
-            
+
         } catch (SQLException ex) {
             //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
             return false;
-        }        
+        }
+    }
+
+    public ResultSet getCar(int car_id) throws SQLException {
+        try {            
+            PreparedStatement predStatement = conn.prepareStatement("SELECT * FROM cars INNER JOIN users ON cars.owner_id = users.id WHERE cars.id = ?;");
+
+            predStatement.setInt(1, car_id);
+
+            return predStatement.executeQuery();
+                        
+        } catch (SQLException ex) {
+            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
+            return null;
+        }
     }
 }

@@ -9,6 +9,7 @@ package app.model.pckg;
  * @author Samuel
  */
 public class Car {
+    public int Id = 0;
     public String Brand = "";
     public String Model= "";
     public int Year = 0;    
@@ -18,7 +19,8 @@ public class Car {
     public int Mileage = 0;
     public String Photo= "";
     
-    public Car(String _Brand,
+    public Car(int _Id,
+               String _Brand,
                String _Model,
                int _Year,   
                String _Color,
@@ -27,6 +29,7 @@ public class Car {
                int _Mileage,
                String _Photo)
     {
+        this.Id = _Id;
         this.Brand = _Brand;
         this.Model = _Model;
         this.Year = _Year;

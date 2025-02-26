@@ -6,6 +6,7 @@ package app.login.pckg;
 
 import app.helper.pckg.databaseHelper;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -38,21 +39,22 @@ public class loginServlet extends HttpServlet {
 
         String txtEmail = request.getParameter("txtEmail");
         String txtPwd = request.getParameter("txtPwd");
-        
+
         HttpSession session = request.getSession(false);
-        
-        if (session != null) 
-        {
+
+        if (session != null) {
             session.invalidate();
-        }        
-        
+        }
+
         databaseHelper database = new databaseHelper();
 
-        if (database.validateLogin(txtEmail, txtPwd)) 
-        {
-            database.close();
+        ResultSet rs = database.validateLogin(txtEmail, txtPwd);
+
+        if (rs.next()) {           
             session = request.getSession();
-            session.setAttribute("email",txtEmail);
+            session.setAttribute("email", txtEmail);
+            session.setAttribute("owner_id", rs.getInt("id"));
+            database.close();
             RequestDispatcher rd = request.getRequestDispatcher("menu.jsp");
             rd.forward(request, response);
             return;

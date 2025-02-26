@@ -40,10 +40,11 @@ public class carsServlet extends HttpServlet {
 
             ArrayList<Car> cars = new ArrayList<>();
             databaseHelper database = new databaseHelper();
-            ResultSet resultset = database.getCars();
+            ResultSet resultset = database.getTable("cars");
 
             while (resultset.next()) {
-                Car car = new Car(resultset.getString("brand"),
+                Car car = new Car(resultset.getInt("id"),
+                        resultset.getString("brand"),
                         resultset.getString("model"),
                         resultset.getInt("man_year"),
                         resultset.getString("color"),
@@ -64,7 +65,7 @@ public class carsServlet extends HttpServlet {
             out.println("<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'>");
             out.println("<link href='css/site.css' rel='stylesheet' type='text/css'/>");
             out.println("</head>");
-            
+
             out.println("<body class='bg-light'>");
             out.println("<div class='top-bar d-none d-xl-block'>");
             out.println("    <div class='container d-flex justify-content-between'>");
@@ -125,7 +126,7 @@ public class carsServlet extends HttpServlet {
                 out.println("       <div class='card-body'>");
                 out.println("           <h5 class='card-title'>" + car.Brand + " " + car.Model + "</h5>");
                 out.println("           <p class='card-text'>Engine: " + car.Engine + "</p>");
-                out.println("           <a href='#' class='btn btn-primary'>Ver detalles</a>");
+                out.println("           <a href='carDetails.jsp?id=" + car.Id + "' class='btn btn-primary'>See details</a>");
                 out.println("       </div>");
                 out.println("   </div>");
                 out.println("</div>");

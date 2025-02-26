@@ -4,6 +4,8 @@
     Author     : Samuel
 --%>
 
+<%@page import="app.helper.pckg.miscHelper"%>
+<%@page import="javax.print.attribute.standard.DateTimeAtCompleted"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="app.helper.pckg.databaseHelper"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,6 +29,14 @@
                 RequestDispatcher rd = request.getRequestDispatcher("errorHandler?message=You must log in first");
                 rd.forward(request, response);
             }
+
+            databaseHelper database = new databaseHelper();
+            ResultSet rsBrands = database.getTable("brands");
+            ResultSet rsModels = database.getTable("models");
+            ResultSet rsFuelType = database.getTable("fuelType");
+
+            miscHelper misc = new miscHelper();
+            ArrayList<Integer> anios = misc.getAnios();
         %>        
         <div class="top-bar d-none d-xl-block">
             <div class="container d-flex justify-content-between">
@@ -45,7 +55,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-auto">
                         <a class="navbar-brand" href="/">
-                            <img src="https://www.priceautoscr.com/PriceAuto/assets/media/general/logo.png" alt="Price Auto Sales">
+
                         </a>
                     </div>
                     <div class="col-lg-auto col">
@@ -78,61 +88,64 @@
 
         <!-- Contenido de prueba -->
         <div class="d-flex justify-content-center align-items-center">
-            <div class="card" style="width: 18rem;">                    
-                <div class="card-body">
-                    <form action="createCarLogic.jsp">
-                        <div class="mb-3">
-                            <select name="selBrand" class="form-select" aria-label="Select your brand">
-                                <option selected>Select your brand</option>
-                                <option value="Toyota">Toyota</option>
-                                <option value="Mitsubishi">Mitsubishi</option>
-                                <option value="Honda">Honda</option>
-                            </select>                            
-                        </div>
-                        <div class="mb-3">
-                            <select name="selModel" class="form-select" aria-label="Select your model">
-                                <option selected>Select your model</option>
-                                <option value="Rav4">Rav4</option>
-                                <option value="Montero Sport">Montero Sport</option>
-                                <option value="Civic Type R">Civic Type R</option>
-                            </select>  
-                        </div>     
-                        <div class="mb-3">
-                            <select name="selYear" class="form-select" aria-label="Select your manufacture year">
-                                <option selected>Select your manufacture year</option>
-                                <option value="2024">2024</option>
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                            </select> 
-                        </div>   
-                        <div class="mb-3">
-                            <label for="txtColor" class="form-label">Color</label>
-                            <input type="text" class="form-control" name="txtColor">
-                        </div>     
-                        <div class="mb-3">
-                            <label for="txtEngine" class="form-label">CC Engine</label>
-                            <input type="number" class="form-control" name="txtEngine">
-                        </div>  
-                        <div class="mb-3">
-                            <select name="selFuelType" class="form-select" aria-label="Select your fuel type">
-                                <option selected>Select your fuel type</option>
-                                <option value="Gasoline">Gasoline</option>
-                                <option value="Diesel">Diesel</option>
-                                <option value="Electric">Electric</option>
-                                <option value="Hybrid">Hybrid</option>                                
-                            </select> 
-                        </div>   
-                        <div class="mb-3">
-                            <label for="txtMileage" class="form-label">Mileage</label>
-                            <input type="number" class="form-control" name="txtMileage">
-                        </div>  
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
+            <div class="card shadow-lg p-4 rounded" style="max-width: 500px; width: 100%;">
+                <h4 class="text-center text-primary mb-3"><i class="fas fa-car"></i> Add a New Car</h4>
+                <form action="createCarLogic.jsp">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-warehouse"></i> Brand</label>
+                        <select name="selBrand" class="form-select" aria-label="Select your brand">
+                            <option selected>Select your brand</option>
+                            <% while (rsBrands.next()) {%>                                
+                            <option value="<%=rsBrands.getString("name")%>"><%=rsBrands.getString("name")%></option>
+                            <% }%>
+                        </select>                            
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-car-side"></i> Model</label>
+                        <select name="selModel" class="form-select" aria-label="Select your model">
+                            <option selected>Select your model</option>
+                            <% while (rsModels.next()) {%>                                
+                            <option value="<%=rsModels.getString("name")%>"><%=rsModels.getString("name")%></option>
+                            <% }%>
+                        </select>  
+                    </div>     
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-calendar-alt"></i> Manufacture Year</label>
+                        <select name="selYear" class="form-select" aria-label="Select your manufacture year">
+                            <option selected>Select your manufacture year</option>
+                            <%for (Integer anio : anios) {%> 
+                            <option value="<%=anio%>"><%=anio%></option>
+                            <% }%>
+                        </select> 
+                    </div>   
+                    <div class="mb-3">
+                        <label for="txtColor" class="form-label"><i class="fas fa-palette"></i> Color</label>
+                        <input type="text" class="form-control" name="txtColor" placeholder="Enter car color">
+                    </div>     
+                    <div class="mb-3">
+                        <label for="txtEngine" class="form-label"><i class="fas fa-cogs"></i> CC Engine</label>
+                        <input type="number" class="form-control" name="txtEngine" placeholder="Enter engine capacity">
+                    </div>  
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-gas-pump"></i> Fuel Type</label>
+                        <select name="selFuelType" class="form-select" aria-label="Select your fuel type">
+                            <option selected>Select your fuel type</option>
+                            <% while (rsFuelType.next()) {%>                                
+                            <option value="<%=rsFuelType.getString("name")%>"><%=rsFuelType.getString("name")%></option>
+                            <% }%>                                
+                        </select> 
+                    </div>   
+                    <div class="mb-3">
+                        <label for="txtMileage" class="form-label"><i class="fas fa-tachometer-alt"></i> Mileage</label>
+                        <input type="number" class="form-control" name="txtMileage" placeholder="Enter mileage">
+                    </div>  
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> Save</button>
+                </form>
             </div>
         </div>
+
+        <!-- Agregar FontAwesome para iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     </body>
 </html>
