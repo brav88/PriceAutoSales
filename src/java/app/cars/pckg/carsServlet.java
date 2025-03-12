@@ -124,7 +124,7 @@ public class carsServlet extends HttpServlet {
                 out.println("  <div class='card shadow-sm' style='width:18rem;height:25rem'>");
                 out.println("         <img src='" + car.Photo + "' />");
                 out.println("       <div class='card-body'>");
-                out.println("           <h5 class='card-title'>" + car.Brand + " " + car.Model + "</h5>");
+                out.println("           <h5 class='card-title'>" + car.Brand + " " + car.Model + " " + car.Year + "</h5>");
                 out.println("           <p class='card-text'>Engine: " + car.Engine + "</p>");
                 out.println("           <a href='carDetails.jsp?id=" + car.Id + "' class='btn btn-primary'>See details</a>");
                 out.println("       </div>");

@@ -4,6 +4,8 @@
     Author     : Samuel
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="app.helper.pckg.miscHelper"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="app.helper.pckg.databaseHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -28,8 +30,17 @@
 
             int car_id = Integer.parseInt(request.getParameter("id"));
             databaseHelper database = new databaseHelper();
+
+            ResultSet rsFuelType = database.getTable("fuelType");
             ResultSet rsCar = database.getCar(car_id);
-            rsCar.next();
+
+            miscHelper misc = new miscHelper();
+            ArrayList<Integer> anios = misc.getAnios();
+
+            if (!(rsCar.next())) { // will work as resultSet == 0
+                RequestDispatcher rd = request.getRequestDispatcher("carsServlet");
+                rd.forward(request, response);
+            }            
         %>        
         <div class="top-bar d-none d-xl-block">
             <div class="container d-flex justify-content-between">
@@ -90,7 +101,7 @@
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <h4 class="card-title text-primary fw-bold">
-                                        <i class="fas fa-car"></i> <%=rsCar.getString("brand")%> <%=rsCar.getString("model")%>
+                                        <i class="fas fa-car"></i> <%=rsCar.getString("brand")%> <%=rsCar.getString("model")%> <%=rsCar.getString("man_year")%>
                                     </h4>
                                     <hr>
                                     <p><i class="fas fa-cogs"></i> Engine: <strong><%=rsCar.getString("cc_engine")%></strong></p>
@@ -103,9 +114,98 @@
                                     <p><i class="fas fa-envelope"></i> Email: <strong><%=rsCar.getString("email")%></strong></p>
                                     <p><i class="fas fa-phone"></i> Phone: <strong><%=rsCar.getString("phone")%></strong></p>
                                     <a href="carsServlet" class="btn btn-primary mt-2"><i class="fas fa-arrow-left"></i> Back</a>
+                                    <% if (rsCar.getString("email").equals(email)) { %>
+                                    <a class="btn btn-info mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                                    <%}%>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Edit your car info</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="updateCarLogic.jsp">        
+                            <div class="mb-3">
+                                <label for="txtId" class="form-label"> Car Id</label>
+                                <input type="number" class="form-control" name="txtId" value="<%=rsCar.getInt("id")%>" readonly>
+                            </div>  
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-calendar-alt"></i> Manufacture Year</label>
+                                <select name="selYear" class="form-select" aria-label="Select your manufacture year">
+                                    <option selected><%=rsCar.getString("man_year")%></option>
+                                    <%for (Integer anio : anios) {%> 
+                                    <option value="<%=anio%>"><%=anio%></option>
+                                    <% }%>
+                                </select> 
+                            </div>   
+                            <div class="mb-3">
+                                <label for="txtColor" class="form-label"><i class="fas fa-palette"></i> Color</label>
+                                <input type="text" class="form-control" name="txtColor" placeholder="Enter car color" value="<%=rsCar.getString("color")%>">
+                            </div>     
+                            <div class="mb-3">
+                                <label for="txtEngine" class="form-label"><i class="fas fa-cogs"></i> CC Engine</label>
+                                <input type="number" class="form-control" name="txtEngine" placeholder="Enter engine capacity" value="<%=rsCar.getString("cc_engine")%>">
+                            </div>  
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-gas-pump"></i> Fuel Type</label>
+                                <select name="selFuelType" class="form-select" aria-label="Select your fuel type">
+                                    <option selected><%=rsCar.getString("fuelType")%></option>
+                                    <% while (rsFuelType.next()) {%>                                
+                                    <option value="<%=rsFuelType.getString("name")%>"><%=rsFuelType.getString("name")%></option>
+                                    <% }%>                                
+                                </select> 
+                            </div>   
+                            <div class="mb-3">
+                                <label for="txtMileage" class="form-label"><i class="fas fa-tachometer-alt"></i> Mileage</label>
+                                <input type="number" class="form-control" name="txtMileage" placeholder="Enter mileage" value="<%=rsCar.getString("mileage")%>">
+                            </div>  
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> Update</button>
+                                </div>    
+                                <div class="col">
+                                    <a class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modalConfirm"> Delete</a>
+                                </div>                                 
+                            </div>    
+                        </form>
+                    </div>
+                    <br>        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Delete your car info</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        This action can not be reversed, do you reall y want to delete?                       
+                    </div>
+                    <br>     
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col">
+                                <a href="deleteCar.jsp?txtId=<%=rsCar.getInt("id")%>" class="btn btn-danger">Delete</a>                       
+                            </div>    
+                            <div class="col">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                                   
+                            </div>                                 
+                        </div>    
                     </div>
                 </div>
             </div>

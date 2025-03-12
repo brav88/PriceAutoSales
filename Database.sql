@@ -38,8 +38,9 @@ INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, p
 INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo, owner_id) 
 	VALUES("Mitsubishi", "Montero", 2024, "Black", "2500", "Diesel", 32000, "Images/2.jpg", 2);
 
-SELECT * FROM cars;
+
 SELECT * FROM brands;
+SELECT * FROM cars;
 SELECT * FROM users;
 
 DELETE FROM cars where id in (3,4,5,6,7);		
@@ -64,6 +65,7 @@ INSERT INTO brands (name, status) VALUES("Ford", 1);
 INSERT INTO brands (name, status) VALUES("Tesla", 1);
 INSERT INTO brands (name, status) VALUES("Lamborghini", 1);
 INSERT INTO brands (name, status) VALUES("Porsche", 1);
+INSERT INTO brands (name, status) VALUES("Hyundai", 1);
 
 CREATE TABLE models (
 	id int not null AUTO_INCREMENT,
@@ -85,6 +87,7 @@ INSERT INTO models (name, status) VALUES("Raptor", 1);
 INSERT INTO models (name, status) VALUES("Cybertruck", 1);
 INSERT INTO models (name, status) VALUES("Huracan", 1);
 INSERT INTO models (name, status) VALUES("911", 1);
+INSERT INTO models (name, status) VALUES("Tucson", 1);
 
 CREATE TABLE fuelType (
 	id int not null AUTO_INCREMENT,
@@ -98,5 +101,9 @@ INSERT INTO fuelType (name, status) VALUES("Diesel", 1);
 INSERT INTO fuelType (name, status) VALUES("Electric", 1);
 INSERT INTO fuelType (name, status) VALUES("Hybrid", 1);
 INSERT INTO fuelType (name, status) VALUES("Hydrogen", 1);
+
+SELECT * FROM cars INNER JOIN users ON cars.owner_id = users.id WHERE cars.id = 1;
+
+UPDATE cars SET man_year = 2023, color = 'Black', cc_engine = 2000, fuelType = 'Diesel', mileage = 24000 WHERE id = 1;
 
 

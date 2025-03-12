@@ -49,7 +49,7 @@ public class databaseHelper {
     public ResultSet getTable(String table) throws SQLException {
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM " + table;            
+            String sql = "SELECT * FROM " + table;
             return statement.executeQuery(sql);
         } catch (SQLException ex) {
             //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
@@ -83,14 +83,54 @@ public class databaseHelper {
         }
     }
 
+    public boolean updateCar(int carId, Car car) throws SQLException {
+        try {
+            PreparedStatement predStatement
+                    = conn.prepareStatement("UPDATE cars SET man_year = ?, color = ?, cc_engine = ?, fuelType = ?, mileage = ? WHERE id = ?;");
+
+            predStatement.setInt(1, car.Year);
+            predStatement.setString(2, car.Color);
+            predStatement.setString(3, car.Engine);
+            predStatement.setString(4, car.FuelType);
+            predStatement.setInt(5, car.Mileage);
+            predStatement.setInt(6, carId);
+
+            predStatement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteCar(int carId, int owner_id) throws SQLException {
+        try {
+            PreparedStatement predStatement
+                    = conn.prepareStatement("DELETE FROM cars WHERE id = ? AND owner_id = ?;");
+
+            predStatement.setInt(1, carId);
+            predStatement.setInt(2, owner_id);
+
+            predStatement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
+            return false;
+        }
+    }
+
     public ResultSet getCar(int car_id) throws SQLException {
-        try {            
+        try {
             PreparedStatement predStatement = conn.prepareStatement("SELECT * FROM cars INNER JOIN users ON cars.owner_id = users.id WHERE cars.id = ?;");
 
             predStatement.setInt(1, car_id);
 
             return predStatement.executeQuery();
-                        
+
         } catch (SQLException ex) {
             //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
             return null;
