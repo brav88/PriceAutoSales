@@ -40,8 +40,8 @@
 
             String selectedBrand = request.getParameter("selBrand");
             String selectedModel = request.getParameter("selModel");
-            String selBegin = request.getParameter("selBegin");
-            String selEnd = request.getParameter("selEnd");
+            String selectedBegin = request.getParameter("selBegin");
+            String selectedEnd = request.getParameter("selEnd");
 
             ArrayList<Car> cars = new ArrayList<>();
 
@@ -58,12 +58,12 @@
                     whereClause += " AND " + "model = '" + selectedModel + "'";
                 }
             }
-            
-            if (selBegin != "" && selEnd != "") {
+
+            if (selectedBegin != "" && selectedEnd != "") {
                 if (whereClause == "") {
-                    whereClause = "man_year between " + selBegin + " AND " + selEnd;
+                    whereClause = "man_year between " + selectedBegin + " AND " + selectedEnd;
                 } else {
-                    whereClause += " AND " + "man_year between " + selBegin + " AND " + selEnd;
+                    whereClause += " AND " + "man_year between " + selectedBegin + " AND " + selectedEnd;
                 }
             }
 
@@ -214,25 +214,32 @@
 
         <div class="d-flex justify-content-center align-items-center">
             <div class="card shadow-lg p-4 rounded" style="width: 90%;">
-                <div class='row'>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
                     <% for (Car car : cars) {%>
-                    <div class='col'>
-                        <div class='card shadow-sm' style='width:18rem;height:25rem'>
-                            <img src='<%=car.Photo%>' />
-                            <div class='card-body'>
-                                <h5 class='card-title'>Brand: <%=car.Brand%></h5>
-                                <p class='card-text'>Engine: <%=car.Engine%></p>
-                                <a href='carDetails.jsp?id=<%=car.Id%>' class='btn btn-primary'>See details</a>
+                    <div class="col">
+                        <div class="card shadow-sm h-100" style="width: 100%; height: 26rem;">
+                            <!-- Contenedor para imagen con fondo y tamaño fijo -->
+                            <div style="height: 150px; background-color: #f8f9fa;" class="d-flex justify-content-center align-items-center">
+                                <img src="<%=car.Photo%>" style="max-height: 100%; max-width: 100%; object-fit: contain;" />
+                            </div>
+                            <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                <div>
+                                    <h6 class="card-title mb-1">Brand: <%=car.Brand%></h6>
+                                    <p class="card-text mb-2">Engine: <%=car.Engine%></p>
+                                </div>
+                                <a href="carDetails.jsp?id=<%=car.Id%>" class="btn btn-sm btn-primary mt-auto">See details</a>
                             </div>
                         </div>
-                    </div>        
-                    <% }%> 
+                    </div>
+                    <% }%>
                 </div>
             </div>
         </div>
 
+
+
+
         <!-- Agregar FontAwesome para iconos -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     </body>
 </html>
