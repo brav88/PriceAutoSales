@@ -37,6 +37,9 @@ INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, p
 
 INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo, owner_id) 
 	VALUES("Mitsubishi", "Montero", 2024, "Black", "2500", "Diesel", 32000, "Images/2.jpg", 2);
+    
+INSERT INTO cars (brand, model, man_year, color, cc_engine, fuelType, mileage, photo, owner_id) 
+	VALUES("Mitsubishi", "Montero", 2022, "Black", "3000", "Gasolina", 20000, "Images/2.jpg", 1);    
 
 
 SELECT * FROM brands;
@@ -106,4 +109,5 @@ SELECT * FROM cars INNER JOIN users ON cars.owner_id = users.id WHERE cars.id = 
 
 UPDATE cars SET man_year = 2023, color = 'Black', cc_engine = 2000, fuelType = 'Diesel', mileage = 24000 WHERE id = 1;
 
+SELECT * FROM cars WHERE brand = 'Hyundai'
 

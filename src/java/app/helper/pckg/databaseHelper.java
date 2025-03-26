@@ -57,6 +57,17 @@ public class databaseHelper {
         return null;
     }
 
+    public ResultSet getTableWithCriteria(String table, String where) throws SQLException {
+        try {
+            Statement statement = conn.createStatement();
+            String sql = "SELECT * FROM " + table + " " + where;
+            return statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return null;
+    }
+
     public boolean saveCar(Car car, int owner_id) throws SQLException {
         try {
             //otra forma

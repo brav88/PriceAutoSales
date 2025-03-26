@@ -59,6 +59,7 @@
                                 <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="carsServlet">See Cars List</a></li>
                                 <li class="nav-item"><a class="nav-link" href="createCar.jsp">Sell your car</a></li>
+                                <li class="nav-item"><a class="nav-link" href="searchCar.jsp">Search your car</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Services</a>
                                     <div class="dropdown-menu">
@@ -87,7 +88,14 @@
          <div class="d-flex justify-content-center align-items-center">
             <div class="card" style="width: 18rem;">                    
                 <div class="card-body">
-                    <a href="carsServlet">See Car List</a> 
+                    <a href="carsServlet">See car List</a> 
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 18rem;">                    
+                <div class="card-body">
+                    <a href="searchCar.jsp">Search your car</a> 
                 </div>
             </div>
         </div>

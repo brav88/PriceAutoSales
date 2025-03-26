@@ -57,7 +57,7 @@ public class carsServlet extends HttpServlet {
             }
 
             database.close();
-
+                        
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
