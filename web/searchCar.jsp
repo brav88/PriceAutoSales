@@ -40,8 +40,8 @@
 
             String selectedBrand = request.getParameter("selBrand");
             String selectedModel = request.getParameter("selModel");
-            String selBegin = request.getParameter("selBegin");
-            String selEnd = request.getParameter("selEnd");
+            String selectedBegin = request.getParameter("selBegin");
+            String selectedEnd = request.getParameter("selEnd");
 
             ArrayList<Car> cars = new ArrayList<>();
 
@@ -59,11 +59,11 @@
                 }
             }
             
-            if (selBegin != "" && selEnd != "") {
+            if (selectedBegin != "" && selectedEnd != "") {
                 if (whereClause == "") {
-                    whereClause = "man_year between " + selBegin + " AND " + selEnd;
+                    whereClause = "man_year between " + selectedBegin + " AND " + selectedEnd;
                 } else {
-                    whereClause += " AND " + "man_year between " + selBegin + " AND " + selEnd;
+                    whereClause += " AND " + "man_year between " + selectedBegin + " AND " + selectedEnd;
                 }
             }
 
