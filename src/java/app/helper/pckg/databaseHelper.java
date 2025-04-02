@@ -6,6 +6,7 @@ package app.helper.pckg;
 
 import app.model.pckg.Car;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class databaseHelper {
     public ResultSet validateLogin(String email, String pwd) throws SQLException {
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM users WHERE email = '" + email + "' AND pwd = '" + pwd + "' AND user_status = 1;";
+            String sql = "SELECT * FROM users WHERE email = '" + email + "' AND pwd = '" + pwd + "'";
             ResultSet resultset = statement.executeQuery(sql);
             return resultset;
         } catch (SQLException ex) {
@@ -145,6 +146,25 @@ public class databaseHelper {
         } catch (SQLException ex) {
             //Logger.getLogger(databaseHelper.class.getName()).log(Level.ERROR, null, ex);
             return null;
+        }
+    }
+    
+     public void saveNotification(String email, String action, String description) throws SQLException {
+        try {
+            //otra forma
+            PreparedStatement predStatement
+                    = conn.prepareStatement("INSERT INTO notifications (email, action, description, creation_date, status) VALUES (?, ?, ?, ?, ?);");
+
+            String today = LocalDateTime.now().toString();  
+            
+            predStatement.setString(1, email);
+            predStatement.setString(2, action);
+            predStatement.setString(3, description);
+            predStatement.setString(4, today);
+            predStatement.setInt(5, 1);     
+
+            predStatement.executeUpdate();           
+        } catch (SQLException ex) {            
         }
     }
 }

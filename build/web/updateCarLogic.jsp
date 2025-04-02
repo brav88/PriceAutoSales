@@ -15,7 +15,8 @@
     String txtEngine = request.getParameter("txtEngine");
     String selFuelType = request.getParameter("selFuelType");
     int txtMileage = Integer.parseInt(request.getParameter("txtMileage"));    
-
+    String email = (String) session.getAttribute("email");
+    
     databaseHelper database = new databaseHelper();
 
     if (database.updateCar(txtId, new Car(0,
@@ -27,6 +28,9 @@
             selFuelType,
             txtMileage,
             ""))) {
+            
+        database.saveNotification(email, "UPDATE", "User updates car " + txtId);
+            
         RequestDispatcher rd = request.getRequestDispatcher("carDetails.jsp?id="+txtId);
         rd.forward(request, response);
     } else {

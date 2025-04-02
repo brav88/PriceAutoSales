@@ -8,7 +8,6 @@ import app.helper.pckg.databaseHelper;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -50,13 +49,24 @@ public class loginServlet extends HttpServlet {
 
         ResultSet rs = database.validateLogin(txtEmail, txtPwd);
 
-        if (rs.next()) {           
+        if (rs.next()) {
             session = request.getSession();
             session.setAttribute("email", txtEmail);
             session.setAttribute("owner_id", rs.getInt("id"));
+            session.setAttribute("user_status", rs.getInt("user_status"));
+           
+            String path = "";
+            if (rs.getInt("user_status") == 1) {
+                path = "menu.jsp";
+            }
+            if (rs.getInt("user_status") == 0) {
+                path = "adminPage.jsp";
+            }
+            
             database.close();
-            RequestDispatcher rd = request.getRequestDispatcher("menu.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher(path);
             rd.forward(request, response);
+
             return;
         }
 

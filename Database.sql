@@ -109,5 +109,18 @@ SELECT * FROM cars INNER JOIN users ON cars.owner_id = users.id WHERE cars.id = 
 
 UPDATE cars SET man_year = 2023, color = 'Black', cc_engine = 2000, fuelType = 'Diesel', mileage = 24000 WHERE id = 1;
 
-SELECT * FROM cars WHERE brand = 'Hyundai'
+SELECT * FROM cars WHERE brand = 'Hyundai';
+
+CREATE TABLE notifications (
+	id int not null AUTO_INCREMENT,
+    email varchar(50),
+    action varchar(50),	
+    description varchar(500),	
+    creation_date datetime,
+    status char,
+    PRIMARY KEY (id)
+);
+
+
+INSERT INTO notifications  VALUES(1, "brav88@hotmail.com", "UPDATE", "User updated car 1", CURDATE(), 1);
 

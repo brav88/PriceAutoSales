@@ -27,6 +27,10 @@
                 RequestDispatcher rd = request.getRequestDispatcher("errorHandler?message=You must log in first");
                 rd.forward(request, response);
             }
+
+            databaseHelper database = new databaseHelper();
+
+            ResultSet notifications = database.getTableWithCriteria("notifications", "WHERE email = '" + email + "'");            
         %>        
         <div class="top-bar d-none d-xl-block">
             <div class="container d-flex justify-content-between">
@@ -45,7 +49,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-auto">
                         <a class="navbar-brand" href="/">
-                            
+
                         </a>
                     </div>
                     <div class="col-lg-auto col">
@@ -66,7 +70,7 @@
                                         <a class="dropdown-item" href="/">Schedule Appointment</a>
                                     </div>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="/">Locations</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">See notifications</a></li>
                                 <li class="nav-item"><a class="nav-link" href="logout.jsp">Logout</a></li>
                             </ul>
                         </nav>
@@ -77,6 +81,20 @@
 
         <hr>
 
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="list-group">
+                    <% while (notifications.next()) {%>        
+                    <li class="list-group-item"><%=notifications.getString("action")%> / <%=notifications.getString("description")%></li>
+                        <% }%>    
+                </ul>
+            </div>
+        </div>
+
         <!-- Contenido de prueba -->
         <div class="d-flex justify-content-center align-items-center">
             <div class="card" style="width: 18rem;">                    
@@ -85,7 +103,7 @@
                 </div>
             </div>
         </div>
-         <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center">
             <div class="card" style="width: 18rem;">                    
                 <div class="card-body">
                     <a href="carsServlet">See car List</a> 

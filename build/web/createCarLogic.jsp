@@ -17,6 +17,7 @@
     String selFuelType = request.getParameter("selFuelType");
     int txtMileage = Integer.parseInt(request.getParameter("txtMileage"));
     int owner_id = (int) session.getAttribute("owner_id");
+    String email = (String) session.getAttribute("email");
 
     databaseHelper database = new databaseHelper();
 
@@ -29,6 +30,9 @@
             selFuelType,
             txtMileage,
             "Images/0.jpg"), owner_id)) {
+
+        database.saveNotification(email, "INSERT", "User insert car " + selBrand + " " + selModel);
+
         RequestDispatcher rd = request.getRequestDispatcher("carsServlet");
         rd.forward(request, response);
     } else {
